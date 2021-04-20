@@ -24,6 +24,7 @@ import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
+import io.flutter.plugins.webviewflutter.JavaScriptChannel;
 ///腾讯x5内核的webView
 public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler {
     private static final String JS_CHANNEL_NAMES_FIELD = "javascriptChannelNames";
