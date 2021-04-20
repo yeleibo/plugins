@@ -100,15 +100,15 @@ public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler 
     public View getView() {
         return x5WebView;
     }
-
+    ///下面的代码复制来自FlutterWebView
     @Override
     public void onFlutterViewAttached(@NonNull View flutterView) {
-       int a=1;
+
     }
 
     @Override
     public void onFlutterViewDetached() {
-        int a=1;
+
     }
 
     @Override
@@ -119,12 +119,12 @@ public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler 
 
     @Override
     public void onInputConnectionLocked() {
-        int a=1;
+
     }
 
     @Override
     public void onInputConnectionUnlocked() {
-        int a=1;
+
     }
 
     @Override
@@ -186,7 +186,7 @@ public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler 
         }
     }
 
-    ///下面的代码复制来自FlutterWebView
+
     @SuppressWarnings("unchecked")
     private void loadUrl(MethodCall methodCall, MethodChannel.Result result) {
         Map<String, Object> request = (Map<String, Object>) methodCall.arguments;
