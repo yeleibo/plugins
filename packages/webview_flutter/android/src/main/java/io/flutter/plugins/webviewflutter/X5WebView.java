@@ -29,7 +29,7 @@ public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler 
     private static final String JS_CHANNEL_NAMES_FIELD = "javascriptChannelNames";
     //具体的webView
     private final WebView x5WebView;
-    //与flutter通讯的通道
+    //与flutter通讯的通道，，用于执行一些回调方法如onPageFinished,onPageStarted
     private final MethodChannel methodChannel;
     private final Handler platformThreadHandler;
 
@@ -47,33 +47,12 @@ public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler 
         x5WebView.getSettings().setSupportMultipleWindows(true);
         //x5WebView.setWebChromeClient(new WebChromeClient());
 
-        x5WebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView webView, String url) {
-                super.onPageFinished(webView, url);
-                methodChannel.invokeMethod("onPageFinished", url);
-            }
-            /**
-             * 防止加载网页时调起系统浏览器
-             */
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-                webView.loadUrl(url);
-                return true;
-            }
-            /**
-             * 防止加载网页时调起系统浏览器
-             */
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest webResourceRequest) {
-                webView.loadUrl(webResourceRequest.getUrl().toString());
-                return true;
-            }
-        });
+
         methodChannel = new MethodChannel(messenger, "plugins.flutter.io/webview_" + id);
         //设置通道的处理方法
         methodChannel.setMethodCallHandler(this);
 
+        x5WebView.setWebViewClient(new X5WebViewClient(methodChannel));
         platformThreadHandler = new Handler(context.getMainLooper());
 
         //根据初始化的参数进行相应的操作
