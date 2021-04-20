@@ -6,6 +6,10 @@ package io.flutter.plugins.webviewflutter;
 
 import android.content.Context;
 import android.view.View;
+
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.WebView;
+
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.StandardMessageCodec;
 import io.flutter.plugin.platform.PlatformView;
@@ -26,6 +30,9 @@ public final class WebViewFactory extends PlatformViewFactory {
   @Override
   public PlatformView create(Context context, int id, Object args) {
     Map<String, Object> params = (Map<String, Object>) args;
+    if(QbSdk.isTbsCoreInited()){
+      return  new X5WebView(context, messenger, id, params, containerView);
+    }
     return new FlutterWebView(context, messenger, id, params, containerView);
   }
 }
