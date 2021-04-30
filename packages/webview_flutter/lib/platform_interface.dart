@@ -522,4 +522,10 @@ abstract class WebViewPlatform {
     throw UnimplementedError(
         "WebView clearCookies is not implemented on the current platform");
   }
+
+  /// 初始化x5
+  Future<void> initX5Core() {
+    throw UnimplementedError(
+        "WebView clearCookies is not implemented on the current platform");
+  }
 }

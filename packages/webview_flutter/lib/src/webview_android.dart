@@ -60,4 +60,9 @@ class AndroidWebView implements WebViewPlatform {
 
   @override
   Future<bool> clearCookies() => MethodChannelWebViewPlatform.clearCookies();
+
+  @override
+  Future<void> initX5Core() {
+    return MethodChannelWebViewPlatform.initX5Core();
+  }
 }

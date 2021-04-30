@@ -1146,6 +1146,11 @@ class MyWebViewPlatform implements WebViewPlatform {
   Future<bool> clearCookies() {
     return Future<bool>.sync(() => null);
   }
+
+  @override
+  Future<bool> initX5Core() {
+    throw UnimplementedError();
+  }
 }
 
 class MyWebViewPlatformController extends WebViewPlatformController {

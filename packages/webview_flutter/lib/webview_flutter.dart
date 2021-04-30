@@ -398,6 +398,7 @@ class WebView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _WebViewState();
+
 }
 
 class _WebViewState extends State<WebView> {
@@ -789,6 +790,36 @@ class CookieManager {
   /// Returns true if cookies were present before clearing, else false.
   Future<bool> clearCookies() => WebView.platform.clearCookies();
 }
+
+/// X5内核管理去.
+class X5CoreManager {
+  /// Creates a [X5CoreManager] -- returns the instance if it's already been called.
+  factory X5CoreManager() {
+    return _instance ??= X5CoreManager._();
+  }
+
+  X5CoreManager._();
+
+  static X5CoreManager _instance;
+
+  /// Clears all cookies for all [WebView] instances.
+  ///
+  /// This is a no op on iOS version smaller than 9.
+  ///
+  /// Returns true if cookies were present before clearing, else false.
+  void initX5Core() {
+    if ( WebView.platform != null) {
+      switch (defaultTargetPlatform) {
+        case TargetPlatform.android:
+          WebView.platform.initX5Core();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+}
+
 
 // Throws an ArgumentError if `url` is not a valid URL string.
 void _validateUrlString(String url) {

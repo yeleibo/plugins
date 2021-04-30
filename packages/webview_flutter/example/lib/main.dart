@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_example/x5_webview.dart';
 
 void main() => runApp(MaterialApp(home: WebViewExample()));
 
@@ -36,11 +37,12 @@ class WebViewExample extends StatefulWidget {
 class _WebViewExampleState extends State<WebViewExample> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
-
+  final X5CoreManager x5CoreManager = X5CoreManager();
   @override
   void initState() {
     super.initState();
     Permission.storage.request();
+    x5CoreManager.initX5Core();
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
@@ -59,12 +61,36 @@ class _WebViewExampleState extends State<WebViewExample> {
       // to allow calling Scaffold.of(context) so we can show a snackbar.
       body: Builder(builder: (BuildContext context) {
         return WebView(
-          initialUrl: 'http://www.baidu.com',
+          initialUrl: 'http://www.hao123.com',
           javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },
+          javascriptChannels: <JavascriptChannel>[
+            _toasterJavascriptChannel(context),
+          ].toSet(),
+          navigationDelegate: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.youtube.com/')) {
+              print('blocking navigation to $request}');
+              return NavigationDecision.prevent;
+            }
+            print('allowing navigation to $request');
+            return NavigationDecision.navigate;
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+          },
+          onPageFinished: (String url) {
+            print('Page finished loading: $url');
+          },
+          gestureNavigationEnabled: true,
+          // gestureNavigationEnabled: true,
           // gestureNavigationEnabled: true,
         );
       }),
-      floatingActionButton: favoriteButton(),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => X5WebView()));
+      },),
     );
   }
 
@@ -119,6 +145,7 @@ class SampleMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder<WebViewController>(
       future: controller,
       builder:

@@ -4,19 +4,24 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 
 import androidx.annotation.NonNull;
 
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebStorage;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import java.lang.reflect.Field;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +29,6 @@ import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
-import io.flutter.plugins.webviewflutter.JavaScriptChannel;
 ///腾讯x5内核的webView
 public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler {
     private static final String JS_CHANNEL_NAMES_FIELD = "javascriptChannelNames";
@@ -40,6 +44,7 @@ public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler 
             int id,
             Map<String, Object> params,
             View containerView) {
+        WebViewFlutterPlugin.x5CoreManager.initX5Core(context);
         x5WebView =new  WebView(context);
         // Allow local storage.
         x5WebView.getSettings().setDomStorageEnabled(true);
@@ -346,6 +351,7 @@ public class X5WebView implements PlatformView, MethodChannel.MethodCallHandler 
     private void updateUserAgent(String userAgent) {
         x5WebView.getSettings().setUserAgentString(userAgent);
     }
+
 
 
 }

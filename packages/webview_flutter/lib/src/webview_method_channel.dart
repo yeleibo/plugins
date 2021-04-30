@@ -25,6 +25,9 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
   static const MethodChannel _cookieManagerChannel =
       MethodChannel('plugins.flutter.io/cookie_manager');
 
+  static const MethodChannel _X5CoreManagerChannel =
+  MethodChannel('plugins.flutter.io/x5core_manager');
+
   Future<bool> _onMethodCall(MethodCall call) async {
     switch (call.method) {
       case 'javascriptChannelMessage':
@@ -159,7 +162,11 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
         .invokeMethod<bool>('clearCookies')
         .then<bool>((dynamic result) => result);
   }
-
+  ///初始化x5
+  static Future<void> initX5Core() {
+    return _X5CoreManagerChannel
+        .invokeMethod<bool>('initX5Core');
+  }
   static Map<String, dynamic> _webSettingsToMap(WebSettings settings) {
     final Map<String, dynamic> map = <String, dynamic>{};
     void _addIfNonNull(String key, dynamic value) {

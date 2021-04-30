@@ -5,6 +5,7 @@
 package io.flutter.plugins.webviewflutter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.tencent.smtt.sdk.QbSdk;
@@ -31,8 +32,10 @@ public final class WebViewFactory extends PlatformViewFactory {
   public PlatformView create(Context context, int id, Object args) {
     Map<String, Object> params = (Map<String, Object>) args;
     if(QbSdk.isTbsCoreInited()){
+      Log.e("FileReader", "加载了X5浏览器" );
       return  new X5WebView(context, messenger, id, params, containerView);
     }
+    Log.e("FileReader", "加载了系统浏览器" );
     return new FlutterWebView(context, messenger, id, params, containerView);
   }
 }
