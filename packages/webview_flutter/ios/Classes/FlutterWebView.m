@@ -221,6 +221,9 @@
                                details:nil]);
     return;
   }
+  if (_webView == nil) {
+        _webView = [[FLTWKWebView alloc] init];
+  }
   [_webView evaluateJavaScript:jsString
              completionHandler:^(_Nullable id evaluateResult, NSError* _Nullable error) {
                if (error) {
